@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>{{question.question_text}}</h1>
+    <form action="{% url 'polls:vote' question.id %}" method="post">
+    <!-- form tag의 action attr에서 polls는 urls.py에서 설정한 app_name이고,
+         : 뒤에 있는게 URLConf에 붙여 놓은 이름-->
+    <!--action = http://localhost:8000/polls/{{question.id}}/vote/-->
+    {% csrf_token %}
+        <ul>
+            {% for choice in question.choice_set.all %}
+                <input type="radio" name="choice"
+                       id="choice{{forloop.counter}}"
+                       value="{{choice.id}}">
+                <label for="choice{{forloop.counter}}">
+                    {{choice.choice_text}}
+                </label>
+            {% endfor %}
+            <br><br>
+            <input type="submit" value="선택">
+        </ul>
+    </form>
+</body>
+</html>
